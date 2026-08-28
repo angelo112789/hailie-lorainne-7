@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuromi 7th Birthday ✦</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<style>
+:root{
+  --pink:#ff4fa3; --pink2:#fe6db6; --purple:#d95ca8; --deep:#1b1118;
+  --card:#fffafd; --ink:#24151e;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; min-height:100vh; overflow-x:hidden; color:#fff;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 15% 20%,#fa52a3 0 1px,transparent 2px),
+    radial-gradient(circle at 80% 35%,#fbadd3 0 1px,transparent 2px),
+    linear-gradient(145deg,#ff6abf,#fcb1d4 45%,#e4a5a5 72%,#f978b6);
+  background-size:90px 90px,130px 130px,100% 100%;
+}
+body:before{
+  content:""; position:fixed; inset:0; pointer-events:none; opacity:.3;
+  background-image:radial-gradient(#d92f83 1px,transparent 1px);
+  background-size:47px 47px;
+  animation:stars 20s linear infinite;
+}
+@keyframes stars{to{background-position:47px 47px}}
+.container{width:min(1180px,94vw);margin:auto}
+.topbar{
+  position:fixed;z-index:30;left:50%;top:16px;transform:translateX(-50%);
+  width:min(760px,92vw);display:flex;justify-content:space-between;align-items:center;
+  padding:10px 14px 10px 18px;border:1px solid #ffffff30;border-radius:999px;
+  background:#ffffffd9;backdrop-filter:blur(16px);box-shadow:0 10px 40px #9e386933;
+}
+.logo{font-weight:900;letter-spacing:.08em;color:var(--pink2)}
+.btn{
+  border:1px solid #d83d8755;background:#fff;color:#351b28;border-radius:999px;
+  padding:9px 14px;cursor:pointer;transition:.2s;font-weight:800
+}
+.btn:hover{transform:translateY(-2px);background:#ff70b522}
+.hero{min-height:94vh;display:grid;place-items:center;padding:100px 0 40px;position:relative}
+.hero-inner{text-align:center;max-width:850px}
+.badge{
+ display:inline-flex;padding:8px 15px;border-radius:999px;background:#fad0e522;
+ border:1px solid #ff9bd155;color:#c72c76;font-weight:800;letter-spacing:.08em
+}
+h1{font-size:clamp(3.3rem,10vw,8rem);line-height:.82;margin:24px 0 16px;
+ font-weight:1000;letter-spacing:-.07em;text-shadow:0 5px 0 #ffb4d7,0 0 35px #ff6fb555}
+h1 span{color:var(--pink);display:block}
+.subtitle{font-size:clamp(1rem,2.5vw,1.35rem);color:#5a3948}
+.cta{margin-top:25px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.primary{background:linear-gradient(135deg,#ff4fa3,#ff86bf);border:0;color:#fff;box-shadow:0 10px 30px #ff4fa344}
+.photo-grid{
+ display:grid;grid-template-columns:repeat(12,1fr);gap:18px;padding:40px 0 90px
+}
+.section-title{text-align:center;margin:0 0 30px;font-size:clamp(2rem,5vw,3.8rem);letter-spacing:-.05em}
+.section-title span{color:var(--pink)}
+.photo{
+ position:relative;min-height:220px;grid-column:span 3;border-radius:24px;
+ padding:9px;background:linear-gradient(145deg,#ff74b7,#ffb7d9);
+ box-shadow:0 20px 45px #0008;transform:rotate(var(--r));transition:.35s;cursor:pointer
+}
+.photo:nth-child(1),.photo:nth-child(5),.photo:nth-child(9){grid-column:span 4}
+.photo:hover{transform:rotate(0) translateY(-10px) scale(1.025);z-index:3}
+.photo img{width:100%;height:100%;min-height:202px;display:block;object-fit:cover;border-radius:17px;background:
+ linear-gradient(135deg,#fff9fd,#f4ddf0);border:3px dashed #ff78ba}
+.photo .num{
+ position:absolute;right:14px;bottom:14px;width:42px;height:42px;border-radius:50%;
+ display:grid;place-items:center;background:#171017;color:#fff;font-weight:1000;
+ border:3px solid #ff9dd1;box-shadow:0 5px 15px #0005
+}
+.footer{text-align:center;padding:20px 0 80px;color:#745666}
+.mascot{font-size:4rem;filter:drop-shadow(0 8px 12px #0008);animation:bob 2.8s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-12px) rotate(3deg)}}
+.balloon{
+ position:fixed;z-index:20;width:62px;height:76px;border-radius:50% 50% 46% 46%;
+ background:radial-gradient(circle at 30% 25%,#fff9,transparent 18%),linear-gradient(135deg,#ff6eaf,#ffb3d5);
+ box-shadow:inset -8px -12px 20px #0003,0 12px 25px #0005;cursor:pointer;
+ animation:float 4s ease-in-out infinite; user-select:none
+}
+.balloon:after{content:"";position:absolute;left:50%;top:74px;height:100px;border-left:1px solid #fff8}
+.balloon:before{content:"";position:absolute;left:50%;bottom:-5px;transform:translateX(-50%);
+ border:5px solid transparent;border-top-color:#ff8cc5}
+.b1{left:3%;top:28%;}.b2{right:3%;top:44%;animation-delay:-1.2s}.b3{left:8%;top:72%;animation-delay:-2.1s}
+@keyframes float{50%{transform:translateY(-25px) rotate(5deg)}}
+.confetti{position:fixed;z-index:10;pointer-events:none;width:9px;height:15px;border-radius:3px;opacity:.9}
+.spark{position:fixed;pointer-events:none;font-size:22px;z-index:50;animation:pop .9s ease-out forwards}
+@keyframes pop{0%{transform:scale(.2);opacity:1}100%{transform:translate(var(--x),var(--y)) rotate(300deg) scale(1.2);opacity:0}}
+#lightbox{
+ position:fixed;inset:0;background:#fff7fce8;backdrop-filter:blur(10px);z-index:100;
+ display:none;place-items:center;padding:25px
+}
+#lightbox.show{display:grid}
+#lightbox img{max-width:min(900px,94vw);max-height:82vh;border-radius:24px;border:5px solid #ff9bd1;box-shadow:0 30px 100px #7d285233}
+.close{position:absolute;top:20px;right:25px;font-size:28px}
+.toast{
+ position:fixed;left:50%;bottom:25px;transform:translate(-50%,20px);opacity:0;z-index:90;
+ padding:12px 18px;border-radius:999px;background:#fff;border:1px solid #ff6fa855;color:#351b28;
+ transition:.3s;font-weight:800
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:800px){
+ .photo,.photo:nth-child(n){grid-column:span 6}
+ .topbar{top:8px}.hero{min-height:80vh}
+}
+@media(max-width:500px){
+ .photo,.photo:nth-child(n){grid-column:span 12}
+ .balloon{width:48px;height:60px}
+}
+input {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  border: none;
+}
+</style>
+</head>
+<body>
+
+<nav class="topbar" style="width: 30%;">
+  <marquee><div class="logo">HAILIE LORAINNE ✦ 7</div></marquee>
+  <button class="btn" id="partyBtn">🎉 PARTY MODE</button>
+</nav>
+
+<div class="balloon b1" title="Pop me!"></div>
+<div class="balloon b2" title="Pop me!"></div>
+<div class="balloon b3" title="Pop me!"></div>
+
+<main>
+<section class="hero">
+ <div class="hero-inner">
+   <div class="mascot">🖤🎀</div>
+   <div class="badge">A VERY SPECIAL DAY ✦ 7 YEARS</div>
+   <h1>IT'S MY <span>7TH BIRTHDAY!</span> SEP - 11 - 2026</h1>
+   <p class="subtitle">Come celebrate with me! Hover, click, pop balloons and make some birthday magic. 💜🖤💗</p>
+   <div class="cta">
+     <button class="btn primary" onclick="burst(event)">✨ MAKE IT SPARKLE</button>
+     <button class="btn" onclick="scrollToPhotos()">📸 SEE MY MEMORIES</button>
+   </div>
+   <h2>See you at the party! 🎉 Please see the details below.</h2>
+   <p class="subtitle">📍 THEL'S Private Pool & Events Place <br/>
+    129 Bustos, Bulacan <br/>
+    2:00 PM
+   </p>
+   <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4638.6982643353!2d120.9274006758592!3d14.906893385616648!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ab00795f0449%3A0xe5b80bb8af19541c!2sTHEL'S%20Private%20Pool%20%26%20Events%20Place!5e1!3m2!1sen!2sph!4v1787563658225!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <div>
+    <h2 class="section-title">MY <span>7</span> DANCE / ROSE 💃🏻🌹</h2>
+    <div>
+      <p class="subtitle">
+        HAEL MARTIN<br/>
+        CLYDE ALEJANDRINO<br/>
+        AK STA. ANA<br/>
+        PRINCE DE CASTRO<br/>
+        EURIE SALCEDO<br/>
+        MARCOUX HERNANDEZ<br/>
+        PAPA RUSTIE POTENCIANO<br/>
+      </p>
+    </div>
+    <h2 class="section-title">MY <span>7</span> GIFTS 🎁</h2>
+    <div>
+      <p class="subtitle">
+        EUKIE SALCEDO<br/>
+        AMARA MARGAUX CERDON<br/>
+        NATALIE CLEDORO<br/>
+        MARGAUX HERNANDEZ<br/>
+        JOCEL ADUANA<br/>
+        SABRINA DE ARROZ<br/>
+        ANDREA SAN GABRIEL<br/>
+      </p>
+    </div>
+    <h2 class="section-title">MY <span>7</span> CANDLE 🕯️</h2>
+    <div>
+      <p class="subtitle">
+        TITA JOSIE GABUCO<br/>
+        TITA RICA LIBERATO<br/>
+        TITA LUISA ANGELES<br/>
+        TITA JENICA DE ARROZ<br/>
+        TITA JHOLYN DEGUZMAN<br/>
+        MAMALA NENITA POTENCIANO<br/>
+        MAMA MARY ANN DORONILA<br/>
+      </p>
+    </div>
+    <h2 class="section-title">MY <span>7</span> BLUE BIILS 💵</h2>
+    <div>
+      <p class="subtitle">
+        NINANG GARA BRAVO<br/>
+        NINANG HARLENE MARTIN<br/>
+        NINANG RUFA REYES<br/>
+        NINANG RIO JANIERO<br/>
+        TITO ROBERT ALEJANDRINO<br/>
+        TITA JOY JOSE<br/>
+        TITA ERICKA ANGELES<br/>
+      </p>
+    </div>
+  </div>
+
+  <div>
+    <h2>Are you coming? We’d love to see you! Let us know.</h2>
+    <input type="text" id="name" placeholder="Enter your full name" autocomplete="name">
+    <button class="btn primary" onclick="addAttendee()">Confirm</button>
+    <h3 style="margin-top:1rem;">Attendees:</h3>
+    <div id="attendeeList"></div>
+  </div>
+</div>
+</section>
+
+<section class="container" id="memories">
+ <h2 class="section-title">MY <span>7TH BIRTHDAY</span> MEMORIES</h2>
+ <div class="photo-grid">
+   <!-- Replace each empty src with your JPEG filename when ready -->
+   <div class="photo" style="--r:-2deg"><img src="photo01.jpeg" alt="Birthday memory 1"><div class="num">1</div></div>
+   <div class="photo" style="--r:1.5deg"><img src="photo02.jpeg" alt="Birthday memory 2"><div class="num">2</div></div>
+   <div class="photo" style="--r:-1deg"><img src="photo03.jpeg" alt="Birthday memory 3"><div class="num">3</div></div>
+   <div class="photo" style="--r:2deg"><img src="photo04.jpeg" alt="Birthday memory 4"><div class="num">4</div></div>
+   <div class="photo" style="--r:1deg"><img src="photo05.jpeg" alt="Birthday memory 5"><div class="num">5</div></div>
+   <div class="photo" style="--r:-2deg"><img src="photo06.jpeg" alt="Birthday memory 6"><div class="num">6</div></div>
+   <div class="photo" style="--r:1deg"><img src="photo07.jpeg" alt="Birthday memory 7"><div class="num">7</div></div>
+   <div class="photo" style="--r:-1.5deg"><img src="photo08.jpeg" alt="Birthday memory 8"><div class="num">8</div></div>
+   <div class="photo" style="--r:2deg"><img src="photo09.jpeg" alt="Birthday memory 9"><div class="num">9</div></div>
+   <div class="photo" style="--r:-1deg"><img src="photo10.jpeg" alt="Birthday memory 10"><div class="num">10</div></div>
+   <div class="photo" style="--r:1deg"><img src="photo11.jpeg" alt="Birthday memory 11"><div class="num">11</div></div>
+ </div>
+</section>
+</main>
+
+<footer class="footer">
+ <div style="font-size:2rem">🎂 🖤 🎀 💗 🖤 🎀 🎂</div>
+ <p>Made with love for a very special 7th birthday ✦</p>
+</footer>
+
+<div id="lightbox"><button class="btn close" onclick="closeLightbox()">✕</button><img id="lightboxImg" src="" alt="Birthday memory"></div>
+<div class="toast" id="toast">✨ Birthday magic!</div>
+
+<script>
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA9Z3TmvbviXlqF4bq5HTezi-vyio9XM-o",
+  authDomain: "rsvp-web-app-ivgen.firebaseapp.com",
+  databaseURL: "https://rsvp-web-app-ivgen-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "rsvp-web-app-ivgen",
+  storageBucket: "rsvp-web-app-ivgen.firebasestorage.app",
+  messagingSenderId: "457059517660",
+  appId: "1:457059517660:web:35f333b5a79bfa951da019",
+  measurementId: "G-2FQL890BX8"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database().ref("attendees");
+
+function addAttendee(){
+  const name = document.getElementById('name').value.trim();
+  if(!name) return;
+  db.push({name});
+  document.getElementById('name').value="";
+}
+
+db.on("value", snapshot=>{
+  const list=document.getElementById('attendeeList');
+  list.innerHTML="";
+  snapshot.forEach(child=>{
+    const div=document.createElement('div');
+    div.className="attendee";
+    div.textContent=child.val().name;
+    list.appendChild(div);
+  });
+});
+
+const $=s=>document.querySelector(s);
+const toast=(msg)=>{
+ const t=$("#toast");t.textContent=msg;t.classList.add("show");
+ clearTimeout(window.tt);window.tt=setTimeout(()=>t.classList.remove("show"),1600);
+};
+
+function scrollToPhotos(){document.querySelector("#memories").scrollIntoView({behavior:"smooth"})}
+
+function spark(x,y,emoji="✦"){
+ const s=document.createElement("div");s.className="spark";s.textContent=emoji;
+ s.style.left=x+"px";s.style.top=y+"px";
+ s.style.setProperty("--x",(Math.random()*240-120)+"px");
+ s.style.setProperty("--y",(Math.random()*-240-40)+"px");
+ document.body.appendChild(s);setTimeout(()=>s.remove(),900);
+}
+function burst(e){
+ for(let i=0;i<35;i++)setTimeout(()=>spark(e.clientX,e.clientY,["✦","♥","★","🎀"][i%4]),i*18);
+ toast("KUROMI PARTY ACTIVATED! 💜");
+}
+
+document.querySelectorAll(".balloon").forEach(b=>{
+ b.addEventListener("click",e=>{
+   const r=b.getBoundingClientRect();
+   for(let i=0;i<18;i++)spark(r.left+r.width/2,r.top+r.height/2,"✦");
+   b.style.transform="scale(0)";
+   b.style.opacity="0";
+   setTimeout(()=>b.remove(),250);
+   toast("POP! 🎈✨");
+ });
+});
+
+document.addEventListener("mousemove",e=>{
+ if(Math.random()<.11)spark(e.clientX,e.clientY,Math.random()<.5?"✦":"♥");
+});
+
+document.querySelectorAll(".photo").forEach(card=>{
+ card.addEventListener("click",()=>{
+   const img=card.querySelector("img");
+   if(img.complete && img.naturalWidth){
+     $("#lightboxImg").src=img.src;$("#lightbox").classList.add("show");
+   }else toast("Add your JPEG to this photo slot 📸");
+ });
+});
+function closeLightbox(){$("#lightbox").classList.remove("show")}
+$("#lightbox").addEventListener("click",e=>{if(e.target.id==="lightbox")closeLightbox()});
+
+let party=false;
+$("#partyBtn").onclick=()=>{
+ party=!party;
+ document.body.style.animation=party?"hue 3s linear infinite":"";
+ toast(party?"PARTY MODE ON! 🎉💗":"Party mode off");
+ if(party){
+   for(let i=0;i<70;i++){
+     setTimeout(()=>{
+       const c=document.createElement("div");c.className="confetti";
+       c.style.left=Math.random()*100+"vw";c.style.top="-20px";
+       c.style.background=["##00b05c","#007d42","#000000","#003518"][Math.floor(Math.random()*4)];
+       c.style.transform=`rotate(${Math.random()*360}deg)`;
+       c.style.transition=`transform ${2+Math.random()*2}s linear,top ${2+Math.random()*2}s linear`;
+       document.body.appendChild(c);
+       requestAnimationFrame(()=>{c.style.top="110vh";c.style.transform+=` rotate(${Math.random()*720}deg)`});
+       setTimeout(()=>c.remove(),4500);
+     },i*35);
+   }
+ }
+};
+
+document.addEventListener("keydown",e=>{
+ if(e.key==="Escape")closeLightbox();
+//  if(e.code==="Space"){e.preventDefault();burst({clientX:innerWidth/2,clientY:innerHeight/2})}
+});
+</script>
+</body>
+</html>
